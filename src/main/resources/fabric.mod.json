@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "rendertweaks",
+  "version": "${version}",
+
+  "name": "RenderTweaks",
+  "description": "Make cool replay videos.",
+  "authors": [
+    "Andrews54757"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Andrews54757/RenderTweaks",
+    "sources": "https://github.com/Andrews54757/RenderTweaks"
+  },
+
+  "license": "MIT",
+  "icon": "assets/rendertweaks/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.andrews.rendertweaks.RenderTweaks.java"
+    ]
+  },
+  "mixins": [
+    "rendertweaks.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
