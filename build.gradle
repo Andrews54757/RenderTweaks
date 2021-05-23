@@ -1,6 +1,29 @@
-plugins {
-	id 'fabric-loom' version '0.7-SNAPSHOT'
-	id 'maven-publish'
+buildscript {
+    repositories {
+        jcenter()    
+        maven {
+            name = "Fabric"
+            url = "https://maven.fabricmc.net/"
+        }
+        maven { 
+			name = "Jitpack"
+			url = "https://jitpack.io/"
+		}
+	}
+
+	dependencies {
+		//Sin² Edition Loom
+		classpath 'com.github.Chocohead.Fabric-Loom:fabric-loom:c290f8f'
+    }
+}
+
+apply plugin: "fabric-loom"
+apply plugin: 'maven-publish'
+
+repositories {
+    maven {
+        url 'https://masa.dy.fi/maven'
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -24,11 +47,21 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+    modCompile "fi.dy.masa.malilib:malilib-fabric-${project.minecraft_version}:${project.malilib_version}"
+
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	// modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
+}
+
+compileJava {
+    mappings {
+        from = 'named'
+		to = 'intermediary'
+        method 'net/optifine/BlockPosM', '(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockPos;)Ljava/lang/Iterable;', 'getAllInBoxMutable', 'getAllInBoxMutable'
+    }
 }
 
 processResources {
@@ -37,6 +70,9 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
+}
+jar {
+    exclude('net/optifine/**')   
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -67,7 +103,7 @@ jar {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
 }
-
+/*
 // configure the maven publication
 publishing {
 	publications {
@@ -90,3 +126,4 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+*/
